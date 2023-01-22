@@ -1,0 +1,26 @@
+<div class="data-form">
+  <form method="post" action="<%=`/users/${user._id}/update?_method=PUT`%>">
+    <h2>Editar usuário:</h2>
+    <div class="form-group">
+      <label for="inputFirstName">Primeiro Nome</label>
+      <input type="text" name="first" id="inputFirstName" class="form-control" value="<%= user.name.first %>" placeholder="Primeiro" autofocus>
+    </div>
+    <div class="form-group">
+      <label for="inputLastName">Último Nome</label>
+      <input type="text" name="last" id="inputLastName" class="form-control" value="<%= user.name.last %>" placeholder="Último">
+    </div>
+    <div class="form-group">
+      <label for="inputPassword">Senha</label>
+      <input type="password" name="password" id="inputPassword" class="form-control" value="<%= user.password %>" placeholder="Senha" required>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail">E-mail</label>
+      <input type="email" name="email" id="inputEmail" class="form-control" value="<%= user.email %>" placeholder="E-mail" required>
+    </div>
+    <div class="form-group">
+      <label for="inputZipCode">CEP</label>
+      <input type="text" name="zipCode" id="inputZipCode" pattern="[0-9]{8}" class="form-control" value="<%= user.zipCode %>" placeholder="CEP" required>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Salvar</button>
+  </form>
+</div>

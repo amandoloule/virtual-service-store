@@ -1,0 +1,36 @@
+<h2>Tabela de Serviços</h2>
+<table class="table table-striped table-borderless">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Descrição</th>
+      <th>Editar</th>
+      <th>Deletar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% services.forEach(service => { %>
+      <tr>
+        <td>
+          <a href="<%= `/services/${service._id}` %>">
+            <%= service.title %>
+          </a>
+        </td>
+        <td>
+          <%= service.description %>
+        </td>
+        <td>
+          <a href="<%= `/services/${service._id}/edit` %>">
+            Editar
+          </a>
+        </td>
+        <td>
+          <a href="<%= `/services/${service._id}/delete?_method=DELETE` %>"
+            onclick="return confirm('Você tem certeza que quer deletar esse serviço?')">
+            Deletar
+          </a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

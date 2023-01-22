@@ -1,0 +1,36 @@
+<h2>Tabela de Inscritos</h2>
+<table class="table table-striped table-borderless">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>E-mail</th>
+      <th>Editar</th>
+      <th>Deletar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% subscribers.forEach(subscriber => { %>
+      <tr>
+        <td>
+          <a href="<%= `/subscribers/${subscriber._id}` %>">
+            <%= subscriber.name %>
+          </a>
+        </td>
+        <td>
+          <%= subscriber.email %>
+        </td>
+        <td>
+          <a href="<%= `/subscribers/${subscriber._id}/edit` %>">
+            Editar
+          </a>
+        </td>
+        <td>
+          <a href="<%= `/subscribers/${subscriber._id}/delete?_method=DELETE` %>"
+            onclick="return confirm('Você tem certeza que quer deletar esse inscrito?')">
+            Deletar
+          </a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1">
+    <title>LouleSoft</title>
+    <link rel="shortcut icon" type="image.png" href="/images/icon.png">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/loulesoft.css">
+  </head>
+
+  <body>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+			<div class="container">
+				<a id="title" class="navbar-brand" href="/">LouleSoft</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav">
+						<a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="/services">Serviços</a>
+						<a class="nav-link" href="/subscribers/new">Inscrever-se</a>
+						<a class="nav-link" href="/users">Usuários</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+    <main>
+		<div class="container">
+			<%- body %>
+		</div>
+	</main>
+
+	<script src="/js/jquery.slim.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+
+</html>

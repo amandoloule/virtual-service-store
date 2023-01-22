@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="col-sm-6">
+    <img src="images/fruit.jpg" alt="">
+  </div>
+  <div class="col-sm-6">
+    <h1 class="title">Nossos serviços irão deixá-lo satisfeito</h1>
+    <h1>Nossos Serviços</h1>
+    <% offeredServices.forEach(service => { %>
+      <h5>
+        <%= service.title %>
+      </h5>
+      <span>
+        <%= service.cost %>
+      </span>
+    <% }); %>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<h2>Dados do usuário
+  <%= user.fullName %>
+</h2>
+<table class="table table-striped table-borderless">
+  <tr>
+    <th>Nome</th>
+    <td>
+      <%= user.fullName %>
+    </td>
+  </tr>
+  <tr>
+    <th>E-mail</th>
+    <td>
+      <%= user.email%>
+    </td>
+  </tr>
+  <tr>
+    <th>CEP</th>
+    <td>
+      <%= user.zipCode%>
+    </td>
+  </tr>
+  <tr>
+    <th>Senha</th>
+    <td>********</td>
+  </tr>
+</table>
+<% if (user.subscribedAccount !== null) { %>
+<h4 class="center"> Este usuário tem uma
+  <a href="<%=`/subscribers/${user.subscribedAccount}`%>">
+    inscrição
+  </a>.
+</h4>
+<% } %>
+<div class="center">
+  <a class="button" href="<%=`/users/${user._id}/edit`%>">
+    Editar detalhes do usuário
+  </a>
+</div>
+<div class="center">
+  <a class="button" href="<%= `/users/${user._id}/delete?_method=DELETE` %>"
+    onclick="return confirm('Você tem certeza que quer deletar esse usuário?')" a>
+    Deletar
+  </a>
+</div>
+<div class="center">
+  <a class="button" href="/users">Ver todos os usuários</a>
+</div>

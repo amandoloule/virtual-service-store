@@ -1,0 +1,40 @@
+<h2>Dados da inscrição para
+  <%= subscriber.name %>
+</h2>
+<table class="table table-striped table-borderless">
+  <tr>
+    <th>Nome</th>
+    <td>
+      <%= subscriber.name %>
+    </td>
+  </tr>
+  <tr>
+    <th>E-mail</th>
+    <td>
+      <%= subscriber.email%>
+    </td>
+  </tr>
+  <tr>
+    <th>CEP</th>
+    <td>
+      <%= subscriber.zipCode%>
+    </td>
+  </tr>
+</table>
+<p>Este inscrito tem
+  <%= subscriber.services.length %> serviço(s) associado(s)
+</p>
+<div>
+  <a class="button" href="<%=`/subscribers/${subscriber._id}/edit`%>">
+    Editar Detalhes do Inscrito
+  </a>
+</div>
+<div>
+  <a class="button" href="<%= `/subscribers/${subscriber._id}/delete?_method=DELETE` %>"
+    onclick="return confirm('Você tem certeza que quer deletar esse serviço?')" a>
+    Deletar
+  </a>
+</div>
+<div>
+  <a class="button" href="/subscribers">Ver todos os inscritos</a>
+</div>
