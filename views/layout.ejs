@@ -25,6 +25,18 @@
 						<a class="nav-link" href="/subscribers/new">Inscrever-se</a>
 						<a class="nav-link" href="/users">Usuários</a>
 					</div>
+					<div class="ml-auto">
+						<% if (loggedIn) { %>
+								<span class="logged-text">Logado como <a href="<%=`/users/${currentUser._id}`%>">
+									<%= currentUser.fullName %>
+								</a></span>
+								<span class="log-out">
+									<a class="btn btn-sm btn-warning" href="/users/logout">Logout</a>
+								</span>
+						<% } else { %>
+								<a class="btn btn-sm btn-success" href="/users/login">Login</a>
+						<% } %>
+					</div>
 				</div>
 			</div>
 		</nav>
@@ -32,6 +44,19 @@
 
     <main>
 		<div class="container">
+			<div>
+				<% if (flashMessages) { %>
+					<% if (flashMessages.success) { %>
+						<div class="alert alert-success">
+							<%= flashMessages.success %>
+						</div>
+					<% } else if (flashMessages.error) { %>
+						<div class="alert alert-danger">
+							<%= flashMessages.error %>
+						</div>
+					<% } %> 
+				<% } %>
+			</div>
 			<%- body %>
 		</div>
 	</main>

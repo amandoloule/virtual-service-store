@@ -1,3 +1,9 @@
+<% if (!currentUser || currentUser.accountType !== 'admin') { %>
+  <div class="alert alert-danger">
+    É necessário ser um usuário administrador para acessar esta página.
+  </div>
+<% } else { %>
+
 <div class="data-form">
   <form action="<%=`/subscribers/${subscriber._id}/update?_method=PUT`%>" method="post">
     <h2>Editar inscrito:</h2>
@@ -16,3 +22,5 @@
     <br /><button class="btn btn-lg btn-primary btn-block" type="submit">Enviar</button>
   </form>
 </div>
+
+<% } %> 

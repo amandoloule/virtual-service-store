@@ -24,17 +24,19 @@
 <p>Este inscrito tem
   <%= subscriber.services.length %> serviço(s) associado(s)
 </p>
-<div>
-  <a class="button" href="<%=`/subscribers/${subscriber._id}/edit`%>">
-    Editar Detalhes do Inscrito
-  </a>
-</div>
-<div>
-  <a class="button" href="<%= `/subscribers/${subscriber._id}/delete?_method=DELETE` %>"
-    onclick="return confirm('Você tem certeza que quer deletar esse serviço?')" a>
-    Deletar
-  </a>
-</div>
-<div>
-  <a class="button" href="/subscribers">Ver todos os inscritos</a>
-</div>
+<% if (currentUser && currentUser.accountType == 'admin') { %>
+  <div>
+    <a class="button" href="<%=`/subscribers/${subscriber._id}/edit`%>">
+      Editar Detalhes do Inscrito
+    </a>
+  </div>
+  <div>
+    <a class="button" href="<%= `/subscribers/${subscriber._id}/delete?_method=DELETE` %>"
+      onclick="return confirm('Você tem certeza que quer deletar esse serviço?')" a>
+      Deletar
+    </a>
+  </div>
+  <div>
+    <a class="button" href="/subscribers">Ver todos os inscritos</a>
+  </div>
+<% } %>

@@ -1,3 +1,9 @@
+<% if (!currentUser || (currentUser.accountType !== 'admin' && currentUser._id.toString() !== user._id.toString())) { %>
+  <div class="alert alert-danger">
+    É necessário ser um usuário administrador para acessar esta página.
+  </div>
+<% } else { %>
+
 <h2>Dados do usuário
   <%= user.fullName %>
 </h2>
@@ -43,6 +49,10 @@
     Deletar
   </a>
 </div>
-<div class="center">
-  <a class="button" href="/users">Ver todos os usuários</a>
-</div>
+<% if (currentUser && currentUser.accountType == 'admin') { %>
+  <div class="center">
+    <a class="button" href="/users">Ver todos os usuários</a>
+  </div>
+<% } %>
+
+<% } %> 

@@ -1,6 +1,7 @@
 'use strict'
 
 const User = require('../models/user'),
+	passport = require('passport'),
 	getUserParams = body => {
 		return {
 			name: {
@@ -9,7 +10,8 @@ const User = require('../models/user'),
 			},
 			email: body.email,
 			password: body.password,
-			zipCode: body.zipCode
+			zipCode: body.zipCode,
+			accountType: body.accountType
 		}
 	}
 
@@ -35,8 +37,11 @@ module.exports = {
 	},
 
 	create: (req, res, next) => {
-		let userParams = getUserParams(req.body)
-		User.create(userParams)
+		if (req.skip) return next()
+
+		let newUser = new User(getUserParams(req.body))
+
+		/* User.create(userParams)
 			.then(user => {
 				res.locals.redirect = '/users'
 				res.locals.user = user
@@ -45,7 +50,18 @@ module.exports = {
 			.catch(error => {
 				console.log(`Erro ao salvar usuário: ${error.message}`)
 				next(error)
-			})
+			}) */
+		User.register(newUser, req.body.password, (e, user) => {
+			if (user) {
+				req.flash('success', `Conta de ${user.fullName} criada!`)
+				res.locals.redirect = '/users'
+				next()
+			} else {
+				req.flash('error', `Falha ao criar a conta porque: ${e.message}`)
+				res.locals.redirect = '/users/new'
+				next()
+			}
+		})
 	},
 
 	redirectView: (req, res, next) => {
@@ -113,5 +129,64 @@ module.exports = {
 				console.log(`Erro ao deletar usuário com ID: ${error.message}`)
 				next()
 			})
+	},
+
+	login: (req, res) => {
+		res.render('users/login')
+	},
+
+	authenticate: passport.authenticate('local', {
+		failureRedirect: '/users/login',
+		failureFlash: 'Houve uma falha no login.',
+		successRedirect: '/',
+		successFlash: 'Você está logado!'
+	}),
+	/* authenticate: passport.authenticate('local', {
+		failureRedirect: '/users/login',
+		failureFlash: 'Houve uma falha no login.' }),
+	function(req, res, next) {
+		req.flash('success', 'Você está logado!')
+		res.locals.redirect = '/'
+		next()
+	}, */
+
+	validate: (req, res, next) => {
+		req
+			.sanitizeBody('email')
+			.normalizeEmail({
+				all_lowercase: true
+			})
+			.trim()
+		req.check('email', 'E-mail é inválido').isEmail()
+		req
+			.check('zipCode', 'CEP é inválido')
+			.notEmpty()
+			.isInt()
+			.isLength({
+				min: 8,
+				max: 8
+			})
+			.equals(req.body.zipCode)
+		req.check('password', 'O campo Senha não pode estar em branco').notEmpty()
+		req.getValidationResult().then((error) => {
+			if (!error.isEmpty()) {
+				let messages = error.array().map(e => e.msg)
+				req.skip = true
+				req.flash('error', messages.join(' e '))
+				res.locals.redirect = '/users/new'
+				next()
+			} else {
+				next()
+			}
+		})
+	},
+
+	logout: (req, res, next) => {
+		req.logout(function(err) {
+			if (err) { return next(err) }
+			req.flash('success', 'Você não está mais logado!')
+			res.locals.redirect = '/'
+			next()
+		})
 	}
 }

@@ -1,43 +1,49 @@
-<h2>Tabela de Usuários</h2>
-<div>
-  <a class="button" href="/users/new">Criar Usuário</a>
-</div>
-<table class="table table-striped table-borderless">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>E-mail</th>
-      <th>CEP</th>
-      <th>Editar</th>
-      <th>Deletar</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% users.forEach(user => { %>
-        <tr>
-          <td>
-            <a href="<%= `/users/${user._id}`%>">
-              <%= user.fullName %>
-            </a>
-          </td>
-          <td>
-            <%= user.email %>
-          </td>
-          <td>
-            <%= user.zipCode %>
-          </td>
-          <td>
-            <a href="<%= `/users/${user._id}/edit` %>">
-              Editar
-            </a>
-          </td>
-          <td>
-            <a href="<%= `/users/${user._id}/delete?_method=DELETE` %>"
-              onclick="return confirm('Você tem certeza que quer deletar esse usuário?')">
-              Deletar
-            </a>
-          </td>
-        </tr>
-    <% }) %>
-  </tbody>
-</table>
+<% if (!currentUser || currentUser.accountType !== 'admin') { %>
+  <div class="alert alert-danger">
+    É necessário ser um usuário administrador para acessar esta página.
+  </div>
+<% } else { %>
+  <h2>Tabela de Usuários</h2>
+  <div>
+    <a class="button" href="/users/new">Criar Usuário</a>
+  </div>
+  <table class="table table-striped table-borderless">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>CEP</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+          <tr>
+            <td>
+              <a href="<%= `/users/${user._id}`%>">
+                <%= user.fullName %>
+              </a>
+            </td>
+            <td>
+              <%= user.email %>
+            </td>
+            <td>
+              <%= user.zipCode %>
+            </td>
+            <td>
+              <a href="<%= `/users/${user._id}/edit` %>">
+                Editar
+              </a>
+            </td>
+            <td>
+              <a href="<%= `/users/${user._id}/delete?_method=DELETE` %>"
+                onclick="return confirm('Você tem certeza que quer deletar esse usuário?')">
+                Deletar
+              </a>
+            </td>
+          </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %> 

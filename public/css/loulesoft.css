@@ -80,3 +80,11 @@ a {
 .hidden-text {
   -webkit-text-security: disc;
 }
+
+.logged-text {
+  color: #fff;
+}
+
+.logged-text a {
+  color: rgba(255,255,255,.5);
+}

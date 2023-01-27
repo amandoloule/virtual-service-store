@@ -21,17 +21,19 @@
     </td>
   </tr>
 </table>
-<div>
-  <a class="button" href="<%=`/services/${service._id}/edit`%>">
-    Editar detalhes do serviço
-  </a>
-</div>
-<div>
-  <a class="button" href="<%= `/services/${service._id}/delete?_method=DELETE` %>"
-    onclick="return confirm('Você tem certeza que quer deletar esse serviço?')" a>
-    Deletar
-  </a>
-</div>
-<div>
-  <a class="button" href="/services">Ver todos os serviços</a>
-</div>
+<% if (currentUser && currentUser.accountType == 'admin') { %>
+  <div>
+    <a class="button" href="<%=`/services/${service._id}/edit`%>">
+      Editar detalhes do serviço
+    </a>
+  </div>
+  <div>
+    <a class="button" href="<%= `/services/${service._id}/delete?_method=DELETE` %>"
+      onclick="return confirm('Você tem certeza que quer deletar esse serviço?')" a>
+      Deletar
+    </a>
+  </div>
+  <div>
+    <a class="button" href="/services">Ver todos os serviços</a>
+  </div>
+<% } %>

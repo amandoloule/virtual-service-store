@@ -31,8 +31,8 @@ module.exports = {
 	},
 
 	create: (req, res, next) => {
-		let serviceParams = getServiceParams(req.body)
-		Service.create(serviceParams)
+		let newService = new Service(getServiceParams(req.body))
+		/* Service.create(serviceParams)
 			.then(service => {
 				res.locals.redirect = '/services'
 				res.locals.service = service
@@ -41,7 +41,18 @@ module.exports = {
 			.catch(error => {
 				console.log(`Erro ao salvar Serviço: ${error.message}`)
 				next(error)
-			})
+			}) */
+		newService.save((e, savedService) => {
+			if (e) {
+				req.flash('error', `Falha ao criar o serviço porque: ${e.message}`)
+				res.locals.redirect = '/services/new'
+				next()
+			} else {
+				req.flash('success', `Serviço ${savedService.title} criado!`)
+				res.locals.redirect = '/services'
+				next()
+			}
+		})
 	},
 
 	redirectView: (req, res, next) => {
