@@ -1,0 +1,20 @@
+<% if (currentUser) { %>
+    <h1>Chat</h1>
+    <form id="chatForm">
+        <input type="text" id="chat-input">
+        <input type="hidden" id="chat-user-id" value="<%= currentUser._id %>">
+        <input type="hidden" id="chat-user-name" value="<%= currentUser.fullName %>">
+        <input type="hidden" id="chat-user-type" value="<%= currentUser.accountType %>">
+        <input type="submit" value="Enviar">
+    </form>
+    <% if (currentUser.accountType === 'admin') { %>
+        <label for="users-list">Usuário</label>
+        <select id="users-list" class="form-control">
+        </select>
+    <% } %>
+    <div id="chat"><ul></ul></div>
+<% } else { %>
+    <div class="alert alert-danger">
+        É necessário estar logado para acessar esta página.
+    </div>
+<% } %> 

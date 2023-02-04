@@ -1,13 +1,19 @@
+<% if (currentUser && currentUser.accountType !== 'admin') { %>
+  <div class="alert alert-danger">
+    Você já está cadastrado.
+  </div>
+<% } else { %>
+
 <div class="data-form">
   <form action="/users/create" method="post">
-    <h2>Criar um novo usuário:</h2>
+    <h2>Cadastro de Usuário:</h2>
     <div class="form-group">
-      <label for="inputFirstName">Primeiro Nome</label>
-      <input type="text" name="first" id="inputFirstName" class="form-control" placeholder="Primeiro" autofocus>
+      <label for="inputFirstName">Nome</label>
+      <input type="text" name="first" id="inputFirstName" class="form-control" placeholder="Nome" autofocus required>
     </div>
     <div class="form-group">
-      <label for="inputLastName">Último Nome</label>
-      <input type="text" name="last" id="inputLastName" class="form-control" placeholder="Último">
+      <label for="inputLastName">Sobrenome</label>
+      <input type="text" name="last" id="inputLastName" class="form-control" placeholder="Sobrenome" required>
     </div>
     <div class="form-group">
       <label for="inputPassword">Senha</label>
@@ -17,10 +23,11 @@
       <label for="inputEmail">E-mail</label>
       <input type="email" name="email" id="inputEmail" class="form-control" placeholder="E-mail" required>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="inputZipCode">CEP</label>
       <input type="text" name="zipCode" id="inputZipCode" pattern="[0-9]{8}" class="form-control" placeholder="CEP" required>
-    </div>
+    </div> -->
+    <% if (currentUser && currentUser.accountType == 'admin') { %>
     <div class="form-group">
       <label for="accountType">Tipo de Conta</label>
       <select name="accountType" id="inputAccountType" class="form-control">
@@ -28,6 +35,9 @@
         <option value="admin">Admin</option>
       </select>
     </div>
+    <% } %>
     <br /><button class="btn btn-lg btn-primary btn-block" type="submit">Enviar</button>
   </form>
 </div>
+
+<% } %>

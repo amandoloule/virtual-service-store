@@ -1,6 +1,8 @@
 'use strict'
 
 const Service = require('../models/service'),
+	User = require('../models/user'),
+	httpStatus = require('http-status-codes'),
 	getServiceParams = body => {
 		return {
 			title: body.title,
@@ -120,5 +122,67 @@ module.exports = {
 				console.log(`Erro ao deletar Serviço com ID: ${error.message}`)
 				next()
 			})
+	},
+
+	respondJSON: (req, res) => {
+		res.json({
+			status: httpStatus.StatusCodes.OK,
+			data: res.locals
+		})
+	},
+
+	// eslint-disable-next-line no-unused-vars
+	errorJSON: (error, req, res, next) => {
+		let errorObject
+		if (error) {
+			errorObject = {
+				status: httpStatus.StatusCodes.INTERNAL_SERVER_ERROR,
+				message: error.message
+			}
+		} else {
+			errorObject = {
+				status: httpStatus.StatusCodes.OK,
+				message: 'Erro Desconhecido.'
+			}
+		}
+		res.json(errorObject)
+	},
+
+	filterUserServices: (req, res, next) => {
+		let currentUser = res.locals.currentUser
+		if (currentUser) {
+			let mappedServices = res.locals.services.map((service) => {
+				let userJoined = currentUser.services.some((userService) => {
+					return userService.equals(service._id)
+				})
+				return Object.assign(service.toObject(), {joined: userJoined})
+			})
+			res.locals.services = mappedServices
+			next()
+		} else {
+			next()
+		}
+	},
+
+	join: (req, res, next) => {
+		let serviceId = req.params.id,
+			currentUser = req.user
+		
+		if (currentUser) {
+			User.findByIdAndUpdate(currentUser, {
+				$addToSet: {
+					services: serviceId
+				}
+			})
+				.then(() => {
+					res.locals.success = true
+					next()
+				})
+				.catch(error => {
+					next(error)
+				})
+		} else {
+			next(new Error('O usuário deve estar logado.'))
+		}
 	}
 }

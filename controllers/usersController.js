@@ -10,8 +10,8 @@ const User = require('../models/user'),
 			},
 			email: body.email,
 			password: body.password,
-			zipCode: body.zipCode,
-			accountType: body.accountType
+			//zipCode: body.zipCode,
+			accountType: body.accountType != null ? body.accountType : 'comum'  
 		}
 	}
 
@@ -54,7 +54,7 @@ module.exports = {
 		User.register(newUser, req.body.password, (e, user) => {
 			if (user) {
 				req.flash('success', `Conta de ${user.fullName} criada!`)
-				res.locals.redirect = '/users'
+				res.locals.redirect = '/'
 				next()
 			} else {
 				req.flash('error', `Falha ao criar a conta porque: ${e.message}`)
@@ -102,8 +102,11 @@ module.exports = {
 	},
 
 	update: (req, res, next) => {
+		if (req.skip) return next()
+
 		let userId = req.params.id,
 			userParams = getUserParams(req.body)
+		delete userParams.password
 		User.findByIdAndUpdate(userId, {
 			$set: userParams
 		})
@@ -137,7 +140,7 @@ module.exports = {
 
 	authenticate: passport.authenticate('local', {
 		failureRedirect: '/users/login',
-		failureFlash: 'Houve uma falha no login.',
+		failureFlash: ' Houve uma falha no login. ',
 		successRedirect: '/',
 		successFlash: 'Você está logado!'
 	}),
@@ -151,29 +154,76 @@ module.exports = {
 	}, */
 
 	validate: (req, res, next) => {
+		let userId = req.params.id
+		if (userId == null) {
+			req
+				.check('first', 'O campo Nome não pode estar em branco')
+				.notEmpty()
+			req
+				.check('last', 'O campo Sobrenome não pode estar em branco')
+				.notEmpty()
+			req
+				.sanitizeBody('email')
+				.normalizeEmail({
+					all_lowercase: true
+				})
+				.trim()
+			req.check('email', 'E-mail é inválido').isEmail()
+			/* req
+				.check('zipCode', 'CEP é inválido')
+				.notEmpty()
+				.isInt()
+				.isLength({
+					min: 8,
+					max: 8
+				})
+				.equals(req.body.zipCode) */
+			req.check('password', 'O campo Senha não pode estar em branco').notEmpty()
+		} else {
+			req
+				.check('first', 'O campo Nome não pode estar em branco')
+				.notEmpty()
+			req
+				.check('last', 'O campo Sobrenome não pode estar em branco')
+				.notEmpty()
+			req
+				.sanitizeBody('email')
+				.normalizeEmail({
+					all_lowercase: true
+				})
+				.trim()
+			req.check('email', 'E-mail é inválido').isEmail()
+		}
+		
+		req.getValidationResult().then((error) => {
+			if (!error.isEmpty()) {
+				let messages = error.array().map(e => e.msg)
+				req.skip = true
+				req.flash('error', messages.join(' e '))
+				res.locals.redirect = userId == null ? '/users/new' : `/users/${userId}/edit`
+				next()
+			} else {
+				next()
+			}
+		})
+	},
+
+	validateLogin: (req, res, next) => {
 		req
 			.sanitizeBody('email')
 			.normalizeEmail({
 				all_lowercase: true
 			})
 			.trim()
-		req.check('email', 'E-mail é inválido').isEmail()
-		req
-			.check('zipCode', 'CEP é inválido')
-			.notEmpty()
-			.isInt()
-			.isLength({
-				min: 8,
-				max: 8
-			})
-			.equals(req.body.zipCode)
-		req.check('password', 'O campo Senha não pode estar em branco').notEmpty()
+		req.check('email', ' E-mail é inválido ').isEmail()
+		req.check('password', ' O campo Senha não pode estar em branco ').notEmpty()
+
 		req.getValidationResult().then((error) => {
 			if (!error.isEmpty()) {
 				let messages = error.array().map(e => e.msg)
 				req.skip = true
 				req.flash('error', messages.join(' e '))
-				res.locals.redirect = '/users/new'
+				res.locals.redirect = '/users/login'
 				next()
 			} else {
 				next()

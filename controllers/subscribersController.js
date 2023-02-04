@@ -69,10 +69,12 @@ module.exports = {
 	},
 
 	create: (req, res, next) => {
+		if (req.skip) return next()
+
 		let subscriberParams = getSubscriberParams(req.body)
 		Subscriber.create(subscriberParams)
 			.then(subscriber => {
-				res.locals.redirect = '/subscribers'
+				res.locals.redirect = '/'
 				res.locals.subscriber = subscriber
 				next()
 			})
@@ -147,5 +149,39 @@ module.exports = {
 				console.log(`Erro ao atualizar Inscrito com ID: ${error.message}`)
 				next()
 			})
+	},
+
+	validade: (req, res, next) => {
+		req
+			.check('name', 'O campo Nome não pode estar em branco')
+			.notEmpty()
+		req
+			.sanitizeBody('email')
+			.normalizeEmail({
+				all_lowercase: true
+			})
+			.trim()
+		req.check('email', 'E-mail é inválido').isEmail()
+		req
+			.check('zipCode', 'CEP é inválido')
+			.notEmpty()
+			.isInt()
+			.isLength({
+				min: 8,
+				max: 8
+			})
+			.equals(req.body.zipCode)
+		
+		req.getValidationResult().then((error) => {
+			if (!error.isEmpty()) {
+				let messages = error.array().map(e => e.msg)
+				req.skip = true
+				req.flash('error', messages.join(' e '))
+				res.locals.redirect = '/subscribers/new'
+				next()
+			} else {
+				next()
+			}
+		})
 	}
 }

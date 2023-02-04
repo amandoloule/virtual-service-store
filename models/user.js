@@ -21,11 +21,11 @@ const mongoose = require('mongoose'),
 			lowercase: true,
 			unique: true
 		},
-		zipCode: {
+		/* zipCode: {
 			type: Number,
 			min: [10000000, 'CEP muito curto'],
 			max: [99999999, 'CEP muito longo']
-		},
+		}, */
 		accountType: {
 			type: String,
 			trim: true
