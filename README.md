@@ -1,10 +1,8 @@
-# CRUD in Node.js with Mongoose and Bootstrap / CRUD em Node.js com Mongoose e Bootstrap
+# Virtual Service Store / Loja Virtual de Serviços
 
-A model of CRUD, to create, read, update and delete datas of Users, Services and Subscribers, made in Node.js, utilizing Mongoose and Bootstrap.
-In relation to JavaScript, it was made utilizing CommonJS and Promises. A branch will be added with redone code with async/await.
+A virtual service store for register of clients and services with authentication and chat. It is made using Node.js, Mongoose and Bootstrap. The authentication is with Passport.js and the chat is with Socket.io. It is validated with express-validator.
 
-Um modelo de CRUD, para criar, ler, atualizar e excluir dados de Usuários, Serviços e Inscritos, feito em Node.js, utilizando Mongoose e Bootstrap.
-Em relação ao JavaScript, foi feito utilizando CommonJS e Promises. Um branch será adicionado com código refeito com async/await.
+Uma Loja Virtual de Serviços para cadastro de clientes e serviços com autenticação e chat. É feito usando Node.js, Mongoose e Bootstrap. A autenticação é com Passport.js e o chat é com Socket.io. É validado com express-validator.
 
 ## Language and Technologies utilized / Linguagem e tecnologias utilizadas
 
@@ -12,20 +10,13 @@ Em relação ao JavaScript, foi feito utilizando CommonJS e Promises. Um branch 
 - Node.js 16.16.0
 - Mongoose 6.0.13
 - Bootstrap 4.6.2
+- jQuery 3.5.1
+- Passport.js 0.6.0
+- Socket.io 4.5.4
+- express-validator 5.3.1
+- ESLint 8.32.0
+- nodemon 2.0.20
 
 ## Preview
 
-### Home
-![](screenshots/home.JPG)
-
-### Create
-![](screenshots/create.JPG)
-
-### Read
-![](screenshots/read.JPG)
-
-### Update
-![](screenshots/update.JPG)
-
-### Delete
-![](screenshots/delete.JPG)
+The site is online on: https://loulesoftservices.herokuapp.com

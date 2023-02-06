@@ -16,6 +16,7 @@ const express = require('express'),
 // mongoose.Promise = global.Promise
 
 mongoose.connect(
+	process.env.MONGO_URI ||
 	'mongodb://localhost:27017/loulesoft',
 	{ useNewUrlParser: true }
 )
@@ -40,9 +41,9 @@ app.use(
 	})
 )
 
-app.use(cookieParser('secretLouleSoft123'))
+app.use(cookieParser(process.env.SECRET || 'secretLouleSoft123'))
 app.use(expressSession({
-	secret: 'secretLouleSoft123',
+	secret: process.env.SECRET || 'secretLouleSoft123',
 	cookie: {
 		maxAge: 4000000
 	},

@@ -1,7 +1,7 @@
 {
   "name": "loulesoft",
   "version": "1.0.0",
-  "description": "CRUD in Node.js with Mongoose and Bootstrap",
+  "description": "A virtual service store for register of clients and services with authentication and chat",
   "main": "main.js",
   "scripts": {
     "start": "nodemon main.js",
